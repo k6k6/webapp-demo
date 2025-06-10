@@ -17,7 +17,7 @@ public class delete extends HttpServlet {
         // 获取用户输入的文件名
         String fileName = req.getParameter("fileName");
         if (fileName == null || "".equals(fileName.trim())) {
-            resp.getWriter().write("请输入要删除的文件名");
+            resp.getWriter().write("请输入要删除的文件");
             resp.getWriter().close();
             return;
         }
