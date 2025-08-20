@@ -18,12 +18,14 @@ public class servlet2 extends HttpServlet {
         try {
             database reg = new database();
             reg.showConnect();
-           if(reg.select(uname,pwd)==1)
-           {
-               req.getRequestDispatcher("show").forward(req,resp);
-           }
+
+               if (reg.select(uname, pwd) == 1) {
+                   // 登录成功 → 把用户名放进 Session
+                   req.getSession().setAttribute("user", uname);
+                   req.getRequestDispatcher("show").forward(req, resp);
+               }
            else{
-               req.getRequestDispatcher("fail.html").forward(req,resp);
+               req.getRequestDispatcher("login.html").forward(req,resp);
            }
         } catch (java.lang.ClassNotFoundException e) {
             e.printStackTrace();

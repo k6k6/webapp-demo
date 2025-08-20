@@ -24,30 +24,30 @@ public class database {
         }
     }
 
-    public void close() throws SQLException {
-        if (conn != null) {
-            conn.close();
-        }
-    }
+
+
 
     public void insert(String name, String pwd) throws SQLException {
-        String sql = "insert into mypan.user (username, password) values (?,?)";
+        String sql = "insert into mypan.user (username, password) values (?,?)" +
+                "";
         PreparedStatement prep = conn.prepareStatement(sql);
         prep.setString(1, name);
         prep.setString(2, pwd);
         prep.executeUpdate();
     }
     public int select(String name, String pwd) throws SQLException{
-        String sql = "select username, password from user WHERE username =? AND password =?";
-        PreparedStatement prep = conn.prepareStatement(sql);
-        prep.setString(1, name);
-        prep.setString(2, pwd);
-        prep.executeQuery();
-        ResultSet rs = prep.executeQuery();
-            if (rs.next()) {
-                return 1;
-            } else {
-                return 0;
-            }
+        String sql = String.format(
+                "SELECT username ,password FROM user WHERE username = '%s' AND password = %s",
+                name, pwd);
+        /*String sql = "select username, password from user WHERE username =? AND password =?";*/
+
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(sql);
+
+        int result = rs.next() ? 1 : 0;
+
+        rs.close();
+        stmt.close();
+        return result;
     }
 }
